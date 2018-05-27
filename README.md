@@ -19,45 +19,43 @@ Python 3.6.0 (v3.6.0:41df79263a11, Dec 23 2016, 08:06:12) [MSC v.1900 64 bit (AM
 Type "help", "copyright", "credits" or "license" for more information.
 ```
 * scrapy下载与安装  
-python安装成功后，就可以直接通过pip install xx来安装所需模块（xx是模块名），但scarpy算是一个比较大的模块框架，你直接用pip install scrapy会显示安装失败，不信你可以试试。因此要采用特殊的方法，下面是摸索（caikeng）的过程:  
+python安装成功后，就可以直接通过pip install xx来安装所需模块（xx是模块名），但scarpy算是一个比较大的模块框架，你直接用pip install scrapy会显示安装失败，不信你可以试试。因此要采用特殊的方法，下面是摸(cai)索(keng)的过程:  
 1、下载scrapy的whl包,[下载地址](http://www.lfd.uci.edu/~gohlke/pythonlibs/),打开网址后，在网页中搜索scrapy，然后找到Scrapy‑1.5.0‑py2.py3‑none‑any.whl，下载了scrapy的whl包先不要着急安装  
-2、 安装whl格式包需要安装wheel库，可以直接使用pip install wheel安装wheel。
+2、 安装whl格式包需要安装wheel库，可以直接使用pip install wheel安装wheel。  
 3、 scrapy依赖twisted，同样使用whl格式的包进行安装，还是进入[下载地址](http://www.lfd.uci.edu/~gohlke/pythonlibs/),，在网页中搜索twisted找到其对应的whl包Twisted‑18.4.0‑cp36‑cp36m‑win_amd64.whl并下载,根据你的Python的版本选择合适的包，名称中间的cp36是python3.6的意思，amd64是python的位数。  
 4、 下载完成后使用cmd打开windows的命令行窗口，进入whl包所在的文件夹执行如下命令：pip install [whl]，[whl]是whl包的名字，即：
-```
-pip install Twisted-17.1.0-cp36-cp36m-win_amd64.whl  
-```
-Scrapy包需要其所有依赖的包安装完成后才能进行安装，现在还不能安装
+  ```
+  pip install Twisted-17.1.0-cp36-cp36m-win_amd64.whl  
+  ```  
+  Scrapy包需要其所有依赖的包安装完成后才能进行安装，现在还不能安装  
+  5、 scrapy依赖lxml包，需要先安装lxml包，lxml包依赖libxml2，libxml2-devel，所以安装lxmllibxml2， libxml2-devel。幸运的是之前我之前已经安装过lxml   
+  6、所有准备工作做完，中医可以安装scrapy包了，进入Scrapy-1.3.3-py2.py3-none-any.whl所在的目录  
+  ```
+  pip install Scrapy-1.3.3-py2.py3-none-any.whl  
+  ```
+  7、 Successfully ! 先别急着撒花，是否真的安装成功了，还需要验证，输入scrapy -h，出现以下显示，恭喜你安装成功了：
+  ```
+  C:\Users\Administrator>scrapy -h
+  Scrapy 1.5.0 - no active project
 
-5、 scrapy依赖lxml包，需要先安装lxml包，lxml包依赖libxml2，libxml2-devel，所以安装lxmllibxml2， libxml2-devel。幸运的是之前我之前已经安装过lxml
+  Usage:
+    scrapy <command> [options] [args]
 
-6、所有准备工作做完，中医可以安装scrapy包了，进入Scrapy-1.3.3-py2.py3-none-any.whl所在的目录  
-```
-pip install Scrapy-1.3.3-py2.py3-none-any.whl  
-```
-7、 Successfully ! 先别急着撒花，是否真的安装成功了，还需要验证，输入scrapy -h，出现以下显示，恭喜你安装成功了：
-```
-C:\Users\Administrator>scrapy -h
-Scrapy 1.5.0 - no active project
+  Available commands:
+    bench         Run quick benchmark test
+    fetch         Fetch a URL using the Scrapy downloader
+    genspider     Generate new spider using pre-defined templates
+    runspider     Run a self-contained spider (without creating a project)
+    settings      Get settings values
+    shell         Interactive scraping console
+    startproject  Create new project
+    version       Print Scrapy version
+    view          Open URL in browser, as seen by Scrapy
 
-Usage:
-  scrapy <command> [options] [args]
+    [ more ]      More commands available when run from project directory
 
-Available commands:
-  bench         Run quick benchmark test
-  fetch         Fetch a URL using the Scrapy downloader
-  genspider     Generate new spider using pre-defined templates
-  runspider     Run a self-contained spider (without creating a project)
-  settings      Get settings values
-  shell         Interactive scraping console
-  startproject  Create new project
-  version       Print Scrapy version
-  view          Open URL in browser, as seen by Scrapy
-
-  [ more ]      More commands available when run from project directory
-
-Use "scrapy <command> -h" to see more info about a command
-```
+  Use "scrapy <command> -h" to see more info about a command
+  ```
 
 
 
