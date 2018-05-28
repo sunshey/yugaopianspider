@@ -103,7 +103,23 @@ aiqiyi
   scrapy genspider aiqiyispider 'aiqiyi.com'
   ```
   过一会就会在刚才的spider目录中看到aiqiyispider.py文件，所有爬取的逻辑和提取文件的规则都写在这里面。  
-  5. 打开aiqiyispider.py文件，要注意几个重要的属性：
+  
+  5. 爬虫文件生成后，需要在items.py中编写属性字段，打开瞧瞧吧：
+  ```
+  class YugaopianItem(scrapy.Item):
+    name = scrapy.Field()
+    pub_date = scrapy.Field()
+    movie_cover = scrapy.Field()
+    url = scrapy.Field()
+    img_urls = scrapy.Field()
+    image_paths = scrapy.Field()
+    actor = scrapy.Field()
+    director = scrapy.Field()
+    desc = scrapy.Field()
+   ```
+   字段类型类似于字典，可以直接使用key-value的方式设值和获取  
+   
+  6. 打开aiqiyispider.py文件，要注意几个重要的属性：
   ```
   class aiqiyispiderSpider(scrapy.Spider):
     name = 'aiqiyispider'                                   # name是爬虫项目唯一的标识，同一个项目中一定不要使用同一个name
@@ -133,6 +149,7 @@ aiqiyi
                     response.xpath("//p[@class='page-nav']/a[text()='下一页']/@href")[0].extract())
                 yield scrapy.Request(next_url, callback=self.parse)
       #pass
+      
     def parse_detail(self, response):
         item = response.meta['key']
         #   // div[ @class ='movie-title-detail'] / p / span[@ class ="detail-title" and text()="导演："] / following-sibling:: a[1] / text()
@@ -143,7 +160,45 @@ aiqiyi
         item['desc'] = response.xpath(
             '//div[@class="movie-title-detail"]/p/span[@class="detail-title" and text()="剧情："]/following-sibling::text()')[0].extract()
         yield item
+   ```  
+   
+   7. 到这里爬虫文件就编写完成了，如果急于看结果的话，通过运行如下命令：
    ```
+   scrapy crawl aiqiyispider -o  aiqiyi.json
+   ```
+   过一会就可以看到在项目下生成了aiqiyi.json文件，但一般不这么做，通常的做法是在管道文件中处理爬取的结果。  
+   
+   8. 这个项目中可以看到有两个管道文件，一个用来处理爬取的文字信息（pipelines.py），一个用于下载图片（MyImagePipelines.py）。先看看pipelines.py，如下：
+   ```
+   class YugaopianPipeline(object):              # 继承object
+    def __init__(self):
+        self.file = open("yugaopian.json", mode="w", encoding="utf-8")  # 在初始化方法中以写的方式打开json文件，注意编码使用utf-8
+
+    def process_item(self, item, spider):               # 所有爬取的结果都会进入这个方法中，所以方法名不能变
+        content = json.dumps(dict(item), ensure_ascii=False) + ",\n"  # 将爬取的item转换成json格式，dict方法将item转换成字典
+        self.file.write(content)                                      # 将转换后的结果写入文件中
+        return item                                                   # 特别注意，一定不能少了return，否则爬虫调度器不知道将如何处理
+
+    def close_spider(self, spider):                                   # 关闭文件
+        self.file.close()
+    ```
+    
+    接下来在看看MyImagePipelines.py文件。
+    ```
+    class MyImagePipeline(ImagesPipeline):                   # 继承ImagesPipeline，要处理图片下载，必须继承这个类
+    def get_media_requests(self, item, info):                # 爬虫获取图片链接后，会第一时间回调到这个方法，这个方法也是名字不能变
+        for url in item['img_urls']:                         
+            yield scrapy.Request(url)                        # 将每一个图片请求在发出去    
+
+    def item_completed(self, results, item, info):           # 下载完成后回调到这个方法，可以在这里对item进行处理，修改名字、丢弃等操作 
+        image_paths = [x['path'] for ok, x in results if ok] # 这个表达式值得好好推导
+        if not image_paths:
+            raise DropItem("Item contains no images")        # 丢弃
+        item['image_paths'] = image_paths
+        return item                                          # 同样需要return    
+    ```
+    
+    9. 管道文件完成后，不要急于运行命令，还有一个重要的文件需要设置，否则将不会有任何结果。
   
 
  
