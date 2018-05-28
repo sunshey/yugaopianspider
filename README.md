@@ -218,7 +218,17 @@ aiqiyi
 ```
 scrapy crawl aiqiyispider
 ```
-###### 说明：到这里整个爬虫就算完成了，当然scrapy功能远不止这些，可以通过[scrapy中文网](http://scrapy-chs.readthedocs.io/zh_CN/0.24/intro/tutorial.html)学习，
+###### 说明：到这里整个爬虫就算完成了，当然scrapy功能远不止这些，可以通过[scrapy中文网](http://scrapy-chs.readthedocs.io/zh_CN/0.24/intro/tutorial.html)学习。
+
+注意事项
+---
+1. scrapy的安装比较麻烦，不能直接通过命令来安装，需要先下载whl文件。  
+2. scrapy作为爬虫项目比较简单，只需要编写爬虫文件，进行简单的配置就可以了。但我们不能认为scrapy的功能就仅仅于此，它的功能远比我们想象的强大。  
+3. 爬虫中提取规则用到xpath语法，因此需要了解xpath的用法，推荐网站[菜鸟教程](http://www.runoob.com/xpath/xpath-syntax.html)。有两个语法注意下：
+* /a/following-sibling::a  # 获取a节点后所有兄弟节点（包含a标签）
+* /a/following-sibling::a[1] # 获取a节点后包含a标签的第一个兄弟节点
+4. xpath中所有元素角标都是从1开始，区别于Python从0开始
+
 
  
 
