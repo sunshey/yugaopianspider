@@ -68,9 +68,85 @@ python安装成功后，就可以直接通过pip install xx来安装所需模块
  * scrapy runspider aiqiyi  --直接运行aiqiyi爬虫，不运行项目
  * scrapy --help ---查看scrapy命令
  * scrapy version ---查看版本信息  
- 基本上这些命令足够完成爬虫的开发了  
+ 基本上这些命令足够完成爬虫的开发了 
+ 
 开发流程
  ---
+ 1. 在电脑中选择一个用于开发爬虫的目录，比如D:aiqiyi,可以通过命令行创建
+ ```
+ C:\Users\admin>d:
+
+D:\>mkdir aiqiyi
+```
+创建完成后，直接cd到该目录中。  
+2. 运行scrapy命令创建项目，命令如下：
+```
+scrapy startproject aiqiyi
+```
+3. 打开开发工具，可以使用sublime，当然最专业的就是pycharm了。使用pycharm导入刚刚创建的项目，导入成功后就可以看到这样的文档结构：
+```
+aiqiyi
+  aiqiyi
+    __pycache__
+    spiders           # 爬虫目录，所有编写的爬虫文件都在这个目录中
+       __pycache__
+      __init__.py     # init文件，代表这是一个包，而不是一个简简单单的目录
+    __init__.py
+    items.py          # 定义爬取item的字段，所有字段类型类似字典
+    middlewares.py    # 中间件文件，一般用的不多
+    pipelines.py      # 管道文件，处理爬取结果
+    settings.py       # 配置文件,相当重要，管道文件开启、指定图片下载目录都在这个文件里设置
+  scrapy.cfg
+  ```
+  4. 切换到pycharm的Terminal控制台，运行命令创建第一个爬虫文件，命令如下：
+  ```
+  scrapy genspider aiqiyispider 'aiqiyi.com'
+  ```
+  过一会就会在刚才的spider目录中看到aiqiyispider.py文件，所有爬取的逻辑和提取文件的规则都写在这里面。  
+  5. 打开aiqiyispider.py文件，要注意几个重要的属性：
+  ```
+  class aiqiyispiderSpider(scrapy.Spider):
+    name = 'aiqiyispider'                                   # name是爬虫项目唯一的标识，同一个项目中一定不要使用同一个name
+    allowed_domains = ['www.yugaopian.cn']                  # 这个可选
+    start_urls = ['http://www.yugaopian.cn/allmovies']      # 爬虫启动时第一个爬取的网址，这里可以用列表，也可以用元组，元组注意加逗号
+    
+    def parse(self, response):                              # 爬虫默认的解析方法，方法名不能变
+      movlist = response.xpath("//div[@class='movlist']/ul/li")    # 从这里开始，都是提取item的规则，使用xpath语法
+        for result in movlist:
+            item = YugaopianItem()
+            item['name'] = result.xpath("./a/span[@class='item-title']/text()")[0].extract()
+            item['pub_date'] = result.xpath("./a/span[@class='item-pubtime']/text()")[0].extract()
+            item['movie_cover'] = result.xpath("./a/img/@src").extract()
+            item['url'] = "%s%s" % ("https://www.yugaopian.cn", result.xpath("./a/@href")[0].extract())
+            item['img_urls'] = item['movie_cover']
+            
+            # 获取详情页URL，通过使用options方式将item传递
+            request = scrapy.Request(url=item['url'], meta={"key": item}, callback=self.parse_detail)
+            
+            # 这里yield的使用非常重要，等待下一次请求到来，将本次请求发出去
+            yield request
+            
+            # 给爬虫设置条件，如果是最后一页，就终止
+            if response.xpath("//p[@class='page-nav']/a[text()='下一页']/@href"):
+                next_url = "%s%s" % (
+                    "https://www.yugaopian.cn",
+                    response.xpath("//p[@class='page-nav']/a[text()='下一页']/@href")[0].extract())
+                yield scrapy.Request(next_url, callback=self.parse)
+      #pass
+    def parse_detail(self, response):
+        item = response.meta['key']
+        #   // div[ @class ='movie-title-detail'] / p / span[@ class ="detail-title" and text()="导演："] / following-sibling:: a[1] / text()
+        item['director'] = response.xpath(
+            '//div[@class="movie-title-detail"]/p/span[@class="detail-title" and text()="导演："]/following-sibling::a[1]/text()')[0].extract()
+        item['actor'] = response.xpath(
+            '//div[@class="movie-title-detail"]/p/span[@class="detail-title" and text()="主演："]/following-sibling::a/text()')[0].extract()
+        item['desc'] = response.xpath(
+            '//div[@class="movie-title-detail"]/p/span[@class="detail-title" and text()="剧情："]/following-sibling::text()')[0].extract()
+        yield item
+   ```
+  
+
+ 
 
  
  
