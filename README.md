@@ -236,7 +236,8 @@ scrapy crawl aiqiyispider
 * /a/following-sibling::a  # 获取a节点后所有兄弟节点（包含a标签）
 * /a/following-sibling::a[1] # 获取a节点后包含a标签的第一个兄弟节点
 4. xpath中所有元素角标都是从1开始，区别于Python从0开始
-5. scrapy的其他功能，如[暂停/恢复 爬虫](http://scrapy-chs.readthedocs.io/zh_CN/0.24/topics/jobs.html)都是很有用的功能。
+5. scrapy可以保存的文件格式有四种，json/csv/xml/JSON lines  
+6. scrapy的其他功能，如[暂停/恢复 爬虫](http://scrapy-chs.readthedocs.io/zh_CN/0.24/topics/jobs.html)都是很有用的功能。
 
 写在最后
 ---
