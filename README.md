@@ -85,7 +85,6 @@ D:\>mkdir aiqiyi
 ```
 scrapy startproject aiqiyi
 ```  
-项目就创建好了。  
 
 3. 打开开发工具，可以使用sublime，当然最专业的就是pycharm了。使用pycharm导入刚刚创建的项目，导入成功后就可以看到这样的文档结构：
 ```
@@ -102,7 +101,6 @@ aiqiyi
     settings.py       # 配置文件,相当重要，管道文件开启、指定图片下载目录都在这个文件里设置
   scrapy.cfg
   ```
-  结构一目了然，很清晰。  
   
   4. 切换到pycharm的Terminal控制台，运行命令创建第一个爬虫文件，命令如下：
   ```
@@ -189,8 +187,8 @@ aiqiyi
         self.file.close()
    ```
     
-    接下来在看看MyImagePipelines.py文件。
-    
+ 接下来在看看MyImagePipelines.py文件。
+   
    ```
     class MyImagePipeline(ImagesPipeline):                   # 继承ImagesPipeline，要处理图片下载，必须继承这个类
     def get_media_requests(self, item, info):                # 爬虫获取图片链接后，会第一时间回调到这个方法，这个方法也是名字不能变
@@ -204,10 +202,23 @@ aiqiyi
         item['image_paths'] = image_paths
         return item                                          # 同样需要return    
    ```
-    
-    
-    9. 管道文件完成后，不要急于运行命令，还有一个重要的文件需要设置，否则将不会有任何结果。
   
+ 9. 管道文件完成后，不要急于运行命令，还有一个重要的文件需要设置，否则将不会有任何结果。想必你已经猜到了，这个文件就是settings.py,打开文件看看哪些地方要注意：
+ ```
+ USER_AGENT = 'yugaopian (+http://www.yourdomain.com)'  # 设值user_agent请求头，模仿浏览器行为
+ ROBOTSTXT_OBEY = True                                  # 设值ROBOTSTXT_OBEY是否开启，一般设置为False
+ IMAGES_STORE = "F:\\python\\download\\yugaopian"       # 下载图片存储地址，如果项目中不需要下载图片，可以不设置
+ ITEM_PIPELINES = {
+      'yugaopian.MyImagePipelines.MyImagePipeline': 1,  # 开启管道文件，后面的值越小，代表优先级越高，可以设置多个管道文件，默认被注释掉，一定要
+      'yugaopian.pipelines.YugaopianPipeline': 300,     # 记得打开
+ }  
+```
+
+10. 到这里就可以愉快的运行启动爬虫命令，见证奇迹的时刻到了，铛铛铛:smirk::smirk::smirk:
+```
+scrapy crawl aiqiyispider
+```
+###### 说明：到这里整个爬虫就算完成了，当然scrapy功能远不止这些，可以通过[scrapy中文网](http://scrapy-chs.readthedocs.io/zh_CN/0.24/intro/tutorial.html)学习，
 
  
 
