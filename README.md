@@ -82,7 +82,8 @@ D:\>mkdir aiqiyi
 2. 运行scrapy命令创建项目，命令如下：
 ```
 scrapy startproject aiqiyi
-```
+```  
+项目就创建好了。  
 3. 打开开发工具，可以使用sublime，当然最专业的就是pycharm了。使用pycharm导入刚刚创建的项目，导入成功后就可以看到这样的文档结构：
 ```
 aiqiyi
@@ -98,12 +99,12 @@ aiqiyi
     settings.py       # 配置文件,相当重要，管道文件开启、指定图片下载目录都在这个文件里设置
   scrapy.cfg
   ```
+  结构一目了然，很清晰。  
   4. 切换到pycharm的Terminal控制台，运行命令创建第一个爬虫文件，命令如下：
   ```
   scrapy genspider aiqiyispider 'aiqiyi.com'
   ```
   过一会就会在刚才的spider目录中看到aiqiyispider.py文件，所有爬取的逻辑和提取文件的规则都写在这里面。  
-  
   5. 爬虫文件生成后，需要在items.py中编写属性字段，打开瞧瞧吧：
   ```
   class YugaopianItem(scrapy.Item):
@@ -118,7 +119,6 @@ aiqiyi
     desc = scrapy.Field()
    ```
    字段类型类似于字典，可以直接使用key-value的方式设值和获取  
-   
   6. 打开aiqiyispider.py文件，要注意几个重要的属性：
   ```
   class aiqiyispiderSpider(scrapy.Spider):
