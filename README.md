@@ -1,12 +1,13 @@
 * [项目介绍](项目介绍)
 * [前期准备](前期准备)
+* [常用命令介绍](常用命令介绍)
 * [开发流程](开发流程)
 * [注意事项](注意事项)
 
 项目介绍
 ---
 ##### 这是一个使用python框架scrapy实现爬虫的项目，爬取站点是[预告片世界](http://www.yugaopian.cn/allmovies),将抓取的item保存在json文件中，同时下载图片  
-#### scrapy框架是python下一款轻量级web爬虫框架，主要用于数据挖掘、监测和自动化测试。Scrapy吸引人的地方在于它是一个框架，任何人都可以根据需求方便的修改。它也提供了多种类型爬虫的基类，如BaseSpider、sitemap爬虫等，最新版本又提供了web2.0爬虫的支持。
+##### scrapy框架是python下一款轻量级web爬虫框架，主要用于数据挖掘、监测和自动化测试。Scrapy吸引人的地方在于它是一个框架，任何人都可以根据需求方便的修改。它也提供了多种类型爬虫的基类，如BaseSpider、sitemap爬虫等，最新版本又提供了web2.0爬虫的支持。
 
 前期准备
 ---
@@ -56,7 +57,7 @@ python安装成功后，就可以直接通过pip install xx来安装所需模块
 
   Use "scrapy <command> -h" to see more info about a command
   ```
- 开发流程
+ 常用命令介绍
  ---
  scrapy安装成功后，就可以通过scrapy命令来创建和开发项目，首先来认识一下scrapy的命令： 
  * scrapy startproject app --创建名字为app的项目
@@ -67,7 +68,11 @@ python安装成功后，就可以直接通过pip install xx来安装所需模块
  * scrapy runspider aiqiyi  --直接运行aiqiyi爬虫，不运行项目
  * scrapy --help ---查看scrapy命令
  * scrapy version ---查看版本信息  
- 基本上这些命令足够完成爬虫的开发了
+ 基本上这些命令足够完成爬虫的开发了  
+开发流程
+ ---
+
+ 
  
 
 
