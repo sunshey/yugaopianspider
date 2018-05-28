@@ -72,6 +72,7 @@ python安装成功后，就可以直接通过pip install xx来安装所需模块
  
 开发流程
  ---
+ 
  1. 在电脑中选择一个用于开发爬虫的目录，比如D:aiqiyi,可以通过命令行创建
  ```
  C:\Users\admin>d:
@@ -79,11 +80,13 @@ python安装成功后，就可以直接通过pip install xx来安装所需模块
 D:\>mkdir aiqiyi
 ```
 创建完成后，直接cd到该目录中。  
+
 2. 运行scrapy命令创建项目，命令如下：
 ```
 scrapy startproject aiqiyi
 ```  
 项目就创建好了。  
+
 3. 打开开发工具，可以使用sublime，当然最专业的就是pycharm了。使用pycharm导入刚刚创建的项目，导入成功后就可以看到这样的文档结构：
 ```
 aiqiyi
@@ -100,11 +103,13 @@ aiqiyi
   scrapy.cfg
   ```
   结构一目了然，很清晰。  
+  
   4. 切换到pycharm的Terminal控制台，运行命令创建第一个爬虫文件，命令如下：
   ```
   scrapy genspider aiqiyispider 'aiqiyi.com'
   ```
   过一会就会在刚才的spider目录中看到aiqiyispider.py文件，所有爬取的逻辑和提取文件的规则都写在这里面。  
+  
   5. 爬虫文件生成后，需要在items.py中编写属性字段，打开瞧瞧吧：
   ```
   class YugaopianItem(scrapy.Item):
@@ -118,7 +123,8 @@ aiqiyi
     director = scrapy.Field()
     desc = scrapy.Field()
    ```
-   字段类型类似于字典，可以直接使用key-value的方式设值和获取  
+   字段类型类似于字典，可以直接使用key-value的方式设值和获取   
+   
   6. 打开aiqiyispider.py文件，要注意几个重要的属性：
   ```
   class aiqiyispiderSpider(scrapy.Spider):
@@ -181,10 +187,11 @@ aiqiyi
 
     def close_spider(self, spider):                                   # 关闭文件
         self.file.close()
-    ```
+   ```
     
     接下来在看看MyImagePipelines.py文件。
-    ```
+    
+   ```
     class MyImagePipeline(ImagesPipeline):                   # 继承ImagesPipeline，要处理图片下载，必须继承这个类
     def get_media_requests(self, item, info):                # 爬虫获取图片链接后，会第一时间回调到这个方法，这个方法也是名字不能变
         for url in item['img_urls']:                         
@@ -196,7 +203,8 @@ aiqiyi
             raise DropItem("Item contains no images")        # 丢弃
         item['image_paths'] = image_paths
         return item                                          # 同样需要return    
-    ```
+   ```
+    
     
     9. 管道文件完成后，不要急于运行命令，还有一个重要的文件需要设置，否则将不会有任何结果。
   
