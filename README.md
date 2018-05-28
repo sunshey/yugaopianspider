@@ -236,11 +236,11 @@ scrapy crawl aiqiyispider
 * /a/following-sibling::a  # 获取a节点后所有兄弟节点（包含a标签）
 * /a/following-sibling::a[1] # 获取a节点后包含a标签的第一个兄弟节点
 4. xpath中所有元素角标都是从1开始，区别于Python从0开始
+5. scrapy的其他功能，如[暂停/恢复 爬虫](http://scrapy-chs.readthedocs.io/zh_CN/0.24/topics/jobs.html)都是很有用的功能。
 
 写在最后
 ---
-scrapy爬虫项目写完了，但我却越发觉得scrapy的强大，正所谓："越是对知识的渴望，越会体会到知识的无穷尽"。
-
+scrapy爬虫项目写完了，但我却越发觉得scrapy的强大，正所谓："越是对知识的渴望，越会体会到知识的无穷尽"。要想彻底的掌握这个框架，必须多练，多看文档，踩的坑越多，掌握的就越熟练。最后一句话送给和我一样的人"人丑就要多看书！":yum::yum::yum::yum:
  
 
  
