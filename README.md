@@ -56,6 +56,19 @@ python安装成功后，就可以直接通过pip install xx来安装所需模块
 
   Use "scrapy <command> -h" to see more info about a command
   ```
+ 开发流程
+ ---
+ scrapy安装成功后，就可以通过scrapy命令来创建和开发项目，首先来认识一下scrapy的命令： 
+ * scrapy startproject app --创建名字为app的项目
+ * scrapy genspider aiqiyi 'aiqiyi.com' --创建名为aiqiyi的爬虫，允许爬取的域名是aiqiyi.com
+ * scrapy crawl aiqiyi [-o aiqiyi.json] --运行名为aiqiyi的爬虫，中括号中为直接生成json文件，可选
+ * scrapy list  --列出项目中所有的爬虫
+ * scrapy shell 'http://www.aiqiyi.com' --以shell控制台的形式进行调试，方便获取提取规则
+ * scrapy runspider aiqiyi  --直接运行aiqiyi爬虫，不运行项目
+ * scrapy --help ---查看scrapy命令
+ * scrapy version ---查看版本信息  
+ 基本上这些命令足够完成爬虫的开发了
+ 
 
 
 
