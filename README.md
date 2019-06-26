@@ -226,6 +226,20 @@ aiqiyi
 ```
 scrapy crawl aiqiyispider
 ```
+11.最后再说一点，如果需要在程序运行的时候加参数，可以这样做： 
+```
+class aiqiyispiderSpider(scrapy.Spider):
+    name = 'aiqiyispider'                                   # name是爬虫项目唯一的标识，同一个项目中一定不要使用同一个name
+    allowed_domains = ['www.yugaopian.cn']                  # 这个可选      
+    def __init__(self, text=None, *args, **kwargs):
+        super(LovespiderSpider, self).__init__(*args, **kwargs)
+        self.start_urls = ['http://www.yugaopian.cn/allmovies?text=%s' % text] # 爬虫启动时第一个爬取的网址，这里可以用列表，也可以用元组，元组注意加逗号
+```
+然后运行命令的时候加入-a text=动作,类似这样：  
+```
+scrapy crawl aiqiyispider -a text=动作
+```
+
 ###### 说明：到这里整个爬虫就算完成了，当然scrapy功能远不止这些，可以通过[scrapy中文网](http://scrapy-chs.readthedocs.io/zh_CN/0.24/intro/tutorial.html)学习。
 
 注意事项
